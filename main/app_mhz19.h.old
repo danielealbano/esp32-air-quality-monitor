@@ -1,0 +1,16 @@
+#ifndef APP_MHZ19_H
+#define APP_MHZ19_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+int app_mhz19_get_co2();
+int app_mhz19_get_temp();
+void app_mhz19_task(void*);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif

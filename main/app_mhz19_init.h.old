@@ -1,0 +1,18 @@
+#ifndef APP_MHZ19_INIT_H
+#define APP_MHZ19_INIT_H
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+void app_mhz19_init_uart();
+void app_mhz19_init_library();
+void app_mhz19_init_task();
+void app_mhz19_init();
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif
