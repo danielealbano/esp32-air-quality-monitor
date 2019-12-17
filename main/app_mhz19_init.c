@@ -41,7 +41,7 @@ void app_mhz19_init_library()
 
 void app_mhz19_init_task()
 {
-	xTaskCreate(app_mhz19_task, "app_mhz19_task", 2048, (void*)&mhz19, 25, NULL);
+	xTaskCreate(app_mhz19_task, "app_mhz19_task", 2048, NULL, 25, NULL);
 }
 
 void app_mhz19_init()
