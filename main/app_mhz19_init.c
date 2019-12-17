@@ -8,8 +8,8 @@
 #include "app_mhz19.h"
 
 #define UART_BAUD_RATE 9600
-#define UART_PIN_RX 26
-#define UART_PIN_TX 32
+#define UART_PIN_RX 34
+#define UART_PIN_TX 26
 
 static const char* TAG = "APP/MHZ19/INIT";
 
