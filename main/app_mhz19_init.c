@@ -30,7 +30,7 @@ void app_mhz19_init_uart()
     };
     ESP_ERROR_CHECK(uart_param_config(uart_num, &uart_config));
 	ESP_ERROR_CHECK(uart_set_pin(uart_num, UART_PIN_TX, UART_PIN_RX, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE));
-	ESP_ERROR_CHECK(uart_driver_install(uart_num, uart_buffer_size, uart_buffer_size, 50, &uart_queue, 0));
+	ESP_ERROR_CHECK(uart_driver_install(uart_num, uart_buffer_size, uart_buffer_size, 100, &uart_queue, 0));
 }
 
 void app_mhz19_init_library()
