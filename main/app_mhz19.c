@@ -29,7 +29,7 @@ void app_mhz19_task(void* unused)
 	{
 		vTaskDelay(pdMS_TO_TICKS(1000));
 
-		ESP_LOGI(TAG, "Reading data");
+		// ESP_LOGI(TAG, "Reading data");
 		err = mhz19_retrieve_data();
 		
 		if (err != MHZ19_ERR_OK)
@@ -67,7 +67,7 @@ void app_mhz19_task(void* unused)
 		co2 = mhz19_get_co2();
 		temp = mhz19_get_temperature();
 
-		ESP_LOGI(TAG, "CO2: %d", co2);
-		ESP_LOGI(TAG, "Temperature: %d", temp);
+		// ESP_LOGI(TAG, "CO2: %d", co2);
+		// ESP_LOGI(TAG, "Temperature: %d", temp);
 	}
 }
