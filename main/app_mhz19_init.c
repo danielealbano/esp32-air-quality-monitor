@@ -38,6 +38,7 @@ void app_mhz19_init_library()
 {
 	mhz19_init(uart_num);
 	mhz19_set_auto_calibration(false);
+	mhz19_set_range(2000);
 }
 
 void app_mhz19_init_task()
