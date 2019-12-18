@@ -62,12 +62,11 @@ uint8_t mhz19_calc_crc(uint8_t data[])
     return crc;
 }
 
-size_t mhz19_write(uint8_t data[], uint8_t len)
+void mhz19_prepare_for_write_discard_data_in_uart()
 {
     size_t length;
 	uint8_t buf[20];
 
-    // Discard all the data contained in the ring buffer or pending to be read
 	do
 	{
 		ESP_ERROR_CHECK(uart_get_buffered_data_len(_uart_num, (size_t*)&length));
@@ -79,7 +78,15 @@ size_t mhz19_write(uint8_t data[], uint8_t len)
 		taskYIELD();
 	}
 	while(length > 0);
-    
+
+    return;
+}
+
+size_t mhz19_write(uint8_t data[], uint8_t len)
+{
+    size_t length;
+
+    mhz19_prepare_for_write_discard_data_in_uart();
 	length = uart_write_bytes(_uart_num, (const char*)data, 9);
 
  	ESP_ERROR_CHECK(uart_flush(_uart_num));
@@ -163,6 +170,19 @@ void mhz19_set_auto_calibration(bool mode)
 {
     uint8_t value = mode ? 0xA0 : 0x00;
     mhz19_send_command(0x79, value, 0x00, 0x00, 0x00, 0x00);
+}
+
+void mhz19_set_range(int range)
+{
+    if (range != 2000 && range != 5000)
+    {
+        return;
+    }
+
+    uint8_t range_high = (range >> 8) & 0xFF;
+    uint8_t range_low = range & 0xFF;
+
+    mhz19_send_command(0x99, range_high, range_low, 0x00, 0x00, 0x00);
 }
 
 int mhz19_get_co2()

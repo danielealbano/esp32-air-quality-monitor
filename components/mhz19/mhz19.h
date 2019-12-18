@@ -18,9 +18,11 @@ typedef enum mhz19_err mhz19_err_t;
 
 void mhz19_init(uart_port_t uart_num);
 void mhz19_set_auto_calibration(bool mode);
+void mhz19_set_range(int range);
 int mhz19_get_co2();
 int mhz19_get_temperature();
 size_t mhz19_read(uint8_t data[], uint8_t len);
+void mhz19_prepare_for_write_discard_data_in_uart();
 size_t mhz19_write(uint8_t data[], uint8_t len);
 void mhz19_print_buffer(uint8_t is_request, unsigned char* buffer);
 void mhz19_send_command(uint8_t command, uint8_t b3, uint8_t b4, uint8_t b5, uint8_t b6, uint8_t b7);
