@@ -2,6 +2,7 @@
 #define MHZ19_H
 
 #define MHZ19_REQUEST_TIMEOUT_PERIOD 500
+#define MHZ19_PRINT_BUFFER 1
 
 enum mhz19_err
 {

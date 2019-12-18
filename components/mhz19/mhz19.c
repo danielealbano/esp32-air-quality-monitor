@@ -34,16 +34,18 @@ int mhz19_bytes2int(uint8_t h, uint8_t l)
 
 void mhz19_print_buffer(uint8_t is_request, unsigned char* buffer)
 {
-    // char message[60];
-    // memset(message, 0, sizeof(message));
+#if MHZ19_PRINT_BUFFER == 1
+    char message[60];
+    memset(message, 0, sizeof(message));
 
-    // sprintf(message, "%s ", is_request ? "Request >>" : "Response <<");
-    // for(uint8_t i = 0; i < 9; i++)
-    // {
-    //     sprintf((message + strlen(message)), "0x%02x ", buffer[i]);
-    // }
+    sprintf(message, "%s ", is_request ? "Request >>" : "Response <<");
+    for(uint8_t i = 0; i < 9; i++)
+    {
+        sprintf((message + strlen(message)), "0x%02x ", buffer[i]);
+    }
 
-    // ESP_LOGI(TAG, "%s", message);
+    ESP_LOGI(TAG, "%s", message);
+#endif
 }
 
 uint8_t mhz19_calc_crc(uint8_t data[])
