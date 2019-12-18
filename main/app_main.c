@@ -46,7 +46,7 @@ void app_main_update_ui()
         int co2_new = app_mhz19_get_co2();
         int temp_new = app_mhz19_get_temp();
 
-        temp = temp_new;
+        temp = temp_new < -30 ? temp : temp_new;
         co2 = co2_new >= 5000 ? co2 : co2_new;
 
         app_ui_chart_temp_update_value_label(temp);
