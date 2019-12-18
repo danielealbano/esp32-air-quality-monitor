@@ -10,6 +10,7 @@
 #include "app_lvgl_init.h"
 #include "app_mhz19.h"
 #include "app_ui.h"
+#include "support.h"
 
 static const char* TAG = "APP/MAIN";
 
@@ -33,20 +34,35 @@ void app_print_info()
 
 void app_main_update_ui()
 {
-    int first_loop = 1;
+    int co2 = 0;
+    int temp = 0;
+
+    uint32_t chart_update_interval_ms = (10 * 60 * 60 / CHART_SERIES_DATAPOINTS) * 1000;
+
+    uint32_t datapoint_added_millis = 0;
 
 	while (1)
 	{
-        int co2 = app_mhz19_get_co2();
-        int temp = app_mhz19_get_temp();
+        int co2_new = app_mhz19_get_co2();
+        int temp_new = app_mhz19_get_temp();
 
-        app_ui_chart_temp_add_point(temp);
-        app_ui_chart_co2_add_point(co2);
-        app_ui_chart_pm25_add_point(1000);
+        temp = temp_new;
+        co2 = co2_new >= 5000 ? co2 : co2_new;
 
-		vTaskDelay(pdMS_TO_TICKS(first_loop == 1 ? 1000 : 180000));
+        app_ui_chart_temp_update_value_label(temp);
+        app_ui_chart_co2_update_value_label(co2);
+        app_ui_chart_pm25_update_value_label(1000);
 
-        first_loop = 0;
+        if (millis() - datapoint_added_millis >= chart_update_interval_ms)
+        {
+            app_ui_chart_temp_add_datapoint(temp);
+            app_ui_chart_co2_add_datapoint(co2);
+            app_ui_chart_pm25_add_datapoint(1000);
+
+            datapoint_added_millis = millis();
+        }
+
+		vTaskDelay(pdMS_TO_TICKS(1000));
 	}
 }
 
