@@ -4,15 +4,7 @@
 
 #include "lvgl/lvgl.h"
 #include "app_lvgl.h"
-
-#define CHART_WIDTH 200
-#define CHART_RIGHT_MARGIN 7
-#define CHART_SERIES_TEMP_MIN 0.0
-#define CHART_SERIES_TEMP_MAX 50.0
-#define CHART_SERIES_CO2_MIN 0.0
-#define CHART_SERIES_CO2_MAX 2000.0
-#define CHART_SERIES_PM25_MIN 0.0
-#define CHART_SERIES_PM25_MAX 2000.0
+#include "app_ui.h"
 
 lv_obj_t* chart_temp;
 lv_chart_series_t* chart_series_temp;
@@ -106,7 +98,7 @@ lv_obj_t* app_ui_chart_create(lv_obj_t* container, int min, int max)
     lv_obj_align(chart, NULL, LV_ALIGN_IN_LEFT_MID, 0, 0);
     lv_chart_set_type(chart, LV_CHART_TYPE_AREA);
     lv_chart_set_update_mode(chart, LV_CHART_UPDATE_MODE_SHIFT);
-    lv_chart_set_point_count(chart, CHART_WIDTH);
+    lv_chart_set_point_count(chart, CHART_SERIES_DATAPOINTS);
     lv_chart_set_series_opa(chart, LV_OPA_70);
     lv_chart_set_series_width(chart, 4);
     lv_chart_set_range(chart, min, max);
@@ -201,7 +193,7 @@ void app_ui_build()
     chart_series_pm25 = app_ui_chart_series_create(chart_pm25, LV_COLOR_BLUE);
 }
 
-void app_ui_chart_series_add_point(lv_obj_t* chart, lv_chart_series_t * series, int value)
+void app_ui_chart_series_add_datapoint(lv_obj_t* chart, lv_chart_series_t * series, int value)
 {
     app_lvgl_ui_global_lock_grab();
 
@@ -227,11 +219,10 @@ void app_ui_label_value_update(lv_obj_t* value_label, lv_obj_t* min_max_label, l
     app_lvgl_ui_global_lock_release();
 }
 
-void app_ui_chart_temp_add_point(int temp)
+void app_ui_chart_temp_update_value_label(int temp)
 {
     static int min = 0, max = 0;
 
-    app_ui_chart_series_add_point(chart_temp, chart_series_temp, temp);
     app_ui_label_value_update(
         chart_value_label_temp,
         chart_min_max_label_temp,
@@ -241,11 +232,15 @@ void app_ui_chart_temp_add_point(int temp)
         &max);
 }
 
-void app_ui_chart_co2_add_point(int co2)
+void app_ui_chart_temp_add_datapoint(int temp)
+{
+    app_ui_chart_series_add_datapoint(chart_temp, chart_series_temp, temp);
+}
+
+void app_ui_chart_co2_update_value_label(int co2)
 {
     static int min = 0, max = 0;
 
-    app_ui_chart_series_add_point(chart_co2, chart_series_co2, co2);
     app_ui_label_value_update(
         chart_value_label_co2,
         chart_min_max_label_co2,
@@ -255,11 +250,15 @@ void app_ui_chart_co2_add_point(int co2)
         &max);
 }
 
-void app_ui_chart_pm25_add_point(int pm25)
+void app_ui_chart_co2_add_datapoint(int co2)
+{
+    app_ui_chart_series_add_datapoint(chart_co2, chart_series_co2, co2);
+}
+
+void app_ui_chart_pm25_update_value_label(int pm25)
 {
     static int min = 0, max = 0;
 
-    app_ui_chart_series_add_point(chart_pm25, chart_series_pm25, pm25);
     app_ui_label_value_update(
         chart_value_label_pm25,
         chart_min_max_label_pm25,
@@ -267,4 +266,9 @@ void app_ui_chart_pm25_add_point(int pm25)
         pm25,
         &min,
         &max);
+}
+
+void app_ui_chart_pm25_add_datapoint(int pm25)
+{
+    app_ui_chart_series_add_datapoint(chart_pm25, chart_series_pm25, pm25);
 }
