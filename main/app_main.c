@@ -33,15 +33,20 @@ void app_print_info()
 
 void app_main_update_ui()
 {
+    int first_loop = 1;
+
 	while (1)
 	{
         int co2 = app_mhz19_get_co2();
         int temp = app_mhz19_get_temp();
 
-        app_ui_chart_co2_add_point(co2);
         app_ui_chart_temp_add_point(temp);
+        app_ui_chart_co2_add_point(co2);
+        app_ui_chart_pm25_add_point(1000);
 
-		vTaskDelay(pdMS_TO_TICKS(1000));
+		vTaskDelay(pdMS_TO_TICKS(first_loop == 1 ? 1000 : 180000));
+
+        first_loop = 0;
 	}
 }
 
