@@ -37,7 +37,7 @@ void app_main_update_ui()
     int co2 = 0;
     int temp = 0;
 
-    uint32_t chart_update_interval_ms = (10 * 60 * 60 / CHART_SERIES_DATAPOINTS) * 1000;
+    uint32_t chart_update_interval_ms = (1 * 60 * 60 / CHART_SERIES_DATAPOINTS) * 1000;
 
     uint32_t datapoint_added_millis = 0;
 
