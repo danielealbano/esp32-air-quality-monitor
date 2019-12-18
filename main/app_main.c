@@ -62,7 +62,7 @@ void app_main_update_ui()
             datapoint_added_millis = millis();
         }
 
-		vTaskDelay(pdMS_TO_TICKS(1000));
+		vTaskDelay(pdMS_TO_TICKS(2000));
 	}
 }
 
